@@ -1,5 +1,7 @@
 <?php
 
+// 1 
+
 $categories = [
 
    0 =>      [
@@ -27,70 +29,59 @@ $categories = [
          ]
 ];
 
+// 2 
 
- function afficheCategorieSansProduit(array $categories): void{
-    foreach ($categories as  $categorie ) {
-        if (empty($categorie["produits"])) {
-            echo $categorie["nom"]."\n";
-        }
+//  foreach ($categories as  $categorie ) {
+//     if (count($categorie["produits"]) == 0) {
+//          echo $categorie["nom"]."\n";
+//     }
+//  }
+
+  foreach ($categories as  $categorie ) {
+    if (empty($categorie["produits"])) {
+         echo $categorie["nom"]."\n";
     }
  }
- afficheCategorieSansProduit($categories);
 
+ // 3
 
- function saisieChaine(string $message): string {
-     return readline($message);  
- }
+    
 
-
-
- function champObligatoire(string $value,string $message): bool{
-    if (empty($value)) {
-        echo $message."\n";
-        return  false;
-    }
-        return true;
- }
-
-
-
- function rechercheCategorieParCle(array $categories, string $key, string $value): int|bool {
-    foreach ($categories as $index  => $categorie ) {
-        if (($categorie[$key]) === $value) {
-            return $index ;
-        }
-    } 
-    return false;
- }
-
- function saisieChampObligatoireEtUnique(array $categories,string $smsSaisie, string $smsError,string $key): string{
+    $codeIsValid = true;
+    
+   do { 
         
-    $valueIsValid = true;
-    do {   
-        $value = saisieChaine($smsSaisie);
-        $valueIsValid = champObligatoire($value,$smsError);
-        if($valueIsValid){     
-            $valueIsValid =rechercheCategorieParCle($categories,$key,$value);
-        }
-    } while (!$valueIsValid);
-    return $value;
- }
+        $code = readline("saisir le code :");
+        if (empty($code)) {
+            echo "le code est obligatoire \n";
+             $codeIsValid = false;
+        }else{
+            foreach ($categories as  $categorie ) {
+               if (($categorie["code"]) === $code) {
+                $codeIsValid = false;
+                echo "le code existe deja ...\n"; 
+         }
+       }  
+}
+        
 
 
+    } while (!$codeIsValid);
+    
+     $nomIsValid = true;
+  do { 
+        
+        $nom = readline("saisir le nom : ");
+        if (empty($nom)) {
+            echo "le nom est obligatoire";
+             $nomIsValid= false;
+        }else{
+            foreach ($categories as  $categorie ) {
+               if (($categorie["nom"]) === $nom) {
+                $nomIsValid = false;
+                echo "le nom existe deja ..."; 
+         }
+       }  
+}
+    } while (!$nomIsValid);
 
- function enregistrerCategorie(): void{
-    global $categories;
-    $code = saisieChampObligatoireEtUnique($categories,"Entrez le code :", "champs obligatoire : ", "code");
-    $nom = saisieChampObligatoireEtUnique($categories,"Entrez le nom :", "champs obligatoire : ", "nom");
-
-    $categorie  =   [
-            "code" => $code,
-            "nom" => $nom,
-            "produits" => []
-         ];
-
-    $categories[] = $categorie;
- }
-
- 
-?>
