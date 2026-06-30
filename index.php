@@ -75,5 +75,22 @@ $categories = [
     } while (!$valueIsValid);
     return $value;
  }
+
+
+
+ function enregistrerCategorie(): void{
+    global $categories;
+    $code = saisieChampObligatoireEtUnique($categories,"Entrez le code :", "champs obligatoire : ", "code");
+    $nom = saisieChampObligatoireEtUnique($categories,"Entrez le nom :", "champs obligatoire : ", "nom");
+
+    $categorie  =   [
+            "code" => $code,
+            "nom" => $nom,
+            "produits" => []
+         ];
+
+    $categories[] = $categorie;
+ }
+
  
 ?>
